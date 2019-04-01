@@ -143,8 +143,8 @@ services:
   hover-dns-updater:
       image: slokomisu/home-media:hover-dns-updater
       environment:
-          USERNAME: "slokomisu"
-          PASSWORD: "ZigJoGhi2QQKwkgXHr6k"
+          USERNAME: ${HOVER_API_USER}
+          PASSWORD: ${HOVER_API_PASS}
           DNS1: "dns18751154"
           LOGFILE: "/logs/docker-hover-dns-updater.log"
       stdin_open: true
