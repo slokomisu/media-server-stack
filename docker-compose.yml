@@ -1,4 +1,4 @@
-version: 3
+version: "2"
 services:
   portainer:
     image: portainer/portainer
@@ -42,8 +42,8 @@ services:
       - ${USERDIR}/Downloads/incomplete:/data/incomplete
     environment:
       - OPENVPN_PROVIDER=NORDVPN
-      - OPENVPN_USERNAME=slokomisu4@gmail.com
-      - OPENVPN_PASSWORD=2]+*>9FA27NEa8qWa9cJ
+      - OPENVPN_USERNAME=${NORD_USER}
+      - OPENVPN_PASSWORD=${NORD_PASS}
       - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
       - LOCAL_NETWORK=192.168.1.0/24
       - PUID=${PUID}
@@ -141,6 +141,7 @@ services:
       - 9117:9117
     restart: unless-stopped
   hover-dns-updater:
+      container_name: hover-dns-updater
       image: slokomisu/home-media:hover-dns-updater
       environment:
           USERNAME: ${HOVER_API_USER}
@@ -177,3 +178,18 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+  homebridge:
+    container_name: homebridge
+    image: oznu/homebridge:latest 
+    restart: always
+    network_mode: host
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - HOMEBRIDGE_CONFIG_UI=1
+      - HOMEBRIDGE_CONFIG_UI_PORT=9118
+    ports:
+      - 9118:9118
+    volumes:
+      - ${USERDIR}/docker/homebridge:/homebridge
